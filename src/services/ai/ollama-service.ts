@@ -3,9 +3,9 @@ const OLLAMA_HOST = process.env.LLM_HOST || 'http://192.168.1.34:11434'
 export class AIService {
   static async generateResponse(prompt: string, context?: string) {
     try {
-      const fullPrompt = context ? 
-        `Eres un asistente de la clínica dental Rubio García. ${context}\n\nPregunta: ${prompt}` :
-        `Eres un asistente de la clínica dental Rubio García. Responde amablemente a: ${prompt}`
+      const fullPrompt = context ?
+        `Eres un asistente de la clinica dental Rubio Garcia. ${context}\n\nPregunta: ${prompt}` :
+        `Eres un asistente de la clinica dental Rubio Garcia. Responde amablemente a: ${prompt}`
 
       const response = await fetch(`${OLLAMA_HOST}/api/generate`, {
         method: 'POST',
@@ -25,21 +25,21 @@ export class AIService {
       const data = await response.json()
       return data.response
     } catch (error) {
-      console.error('❌ Error con Ollama AI:', error)
-      return 'Lo siento, el servicio de IA no está disponible en este momento.'
+      console.error('Error con Ollama AI:', error)
+      return 'Lo siento, el servicio de IA no esta disponible en este momento.'
     }
   }
 
   static async detectUrgency(message: string) {
-    const urgentKeywords = ['dolor', 'urgente', 'emergencia', 'sangrado', 'hinchazón']
-    const hasUrgency = urgentKeywords.some(keyword => 
+    const urgentKeywords = ['dolor', 'urgente', 'emergencia', 'sangrado', 'hinchazon']
+    const hasUrgency = urgentKeywords.some(keyword =>
       message.toLowerCase().includes(keyword)
     )
-    
+
     return {
       isUrgent: hasUrgency,
       level: hasUrgency ? 'high' : 'low',
-      detectedKeywords: urgentKeywords.filter(keyword => 
+      detectedKeywords: urgentKeywords.filter(keyword =>
         message.toLowerCase().includes(keyword)
       )
     }

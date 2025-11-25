@@ -6,16 +6,16 @@ export class WhatsAppService {
       const response = await fetch(`${WHATSAPP_BASE_URL}/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          phone: phone.replace('+', ''), 
-          message 
+        body: JSON.stringify({
+          phone: phone.replace('+', ''),
+          message
         })
       })
-      
+
       if (!response.ok) throw new Error('Error en respuesta HTTP')
       return await response.json()
     } catch (error) {
-      console.error('❌ Error enviando WhatsApp:', error)
+      console.error('Error enviando WhatsApp:', error)
       return { success: false, error: 'Servicio no disponible' }
     }
   }
@@ -25,13 +25,13 @@ export class WhatsAppService {
       const response = await fetch(`${WHATSAPP_BASE_URL}/status`)
       return await response.json()
     } catch (error) {
-      console.error('❌ Error obteniendo estado WhatsApp:', error)
+      console.error('Error obteniendo estado WhatsApp:', error)
       return { status: 'offline', message: 'Servicio no disponible' }
     }
   }
 
   static async sendAppointmentReminder(phone: string, appointmentData: any) {
-    const message = `Recordatorio de cita:\n📅 Fecha: ${appointmentData.fecha}\n⏰ Hora: ${appointmentData.hora}\n👨‍⚕️ Doctor: ${appointmentData.doctor}\n📍 Clínica Rubio García Dental`
+    const message = `Recordatorio de cita:\nFecha: ${appointmentData.fecha}\nHora: ${appointmentData.hora}\nDoctor: ${appointmentData.doctor}\nClinica Rubio Garcia Dental`
     return await this.sendMessage(phone, message)
   }
 }
