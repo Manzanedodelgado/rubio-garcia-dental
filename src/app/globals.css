@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@layer components {
+  .sidebar-item {
+    @apply flex items-center space-x-3 px-4 py-3 text-gray-700 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-700;
+  }
+ECHO est  activado.
+  .sidebar-item.active {
+    @apply bg-blue-50 text-blue-700 border-r-2 border-blue-600;
+  }
+ECHO est  activado.
+  .card {
+    @apply bg-white rounded-xl border border-gray-200 shadow-sm;
+  }
+ECHO est  activado.
+  .metric-card {
+    @apply card p-6 hover:shadow-md transition-shadow;
+  }
+}
