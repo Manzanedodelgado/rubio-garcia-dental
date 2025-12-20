@@ -1,103 +1,201 @@
-# Rubio García Dental + IA Dental
+# 🦷 IA Dental - Sistema Inteligente para Clínica Dental
 
-Sistema de Gestión Integral para Clínica Dental con Inteligencia Artificial.
+Sistema de gestión dental con inteligencia artificial powered by **Google Gemini 2.5 Pro**.
 
-## 🚀 Características
+## 🎯 Estado del Proyecto
 
-- **Dashboard** con estadísticas en tiempo real desde GELITE
-- **Agenda** visual con gestión de citas
-- **Pacientes** con ficha completa y historial clínico
-- **Comunicación** WhatsApp con respuesta automática IA
-- **IA Dental** - Asistente inteligente con dos modos:
-  - **Modo Administrador**: Consultas SQL en lenguaje natural
-  - **Modo Paciente**: Chat amable sin acceso a datos sensibles
-- **Chat Flotante** para acceso rápido del administrador
-- **Auto-Reflexión** del sistema para mejora continua
+**Progreso Global**: 45% completado
 
-## 📁 Estructura
+- ✅ **Fase 1** (80%): Scripts de conectividad y auto-descubrimiento creados
+- ✅ **Fase 2** (100%): Gemini 2.5 Pro integrado y funcionando
+- ⏳ **Fase 3** (0%): Auto-evaluación (pendiente)
+- ⏳ **Fase 4** (0%): WhatsApp, RRSS (pendiente)
+
+## 🏗️ Arquitectura
+
+### Híbrida Local + Cloud
+
+- **Local**: SQL Server (GELITE) - Datos sensibles de pacientes
+- **Cloud**: Supabase - Configuraciones y comunicaciones
+- **IA**: Google Gemini 2.5 Pro - Motor de inteligencia
+
+### Componentes Principales
 
 ```
-rubio-garcia-dental-integrated/
-├── server.js           # Backend Express + mssql para GELITE
-├── src/
-│   ├── App.tsx         # Aplicación principal
-│   ├── components/     # Componentes React
-│   │   ├── IADental.tsx           # Panel completo de IA
-│   │   ├── IADentalFloatChat.tsx  # Chat popup flotante
-│   │   ├── Dashboard.tsx
-│   │   ├── Agenda.tsx
-│   │   ├── Patients.tsx
-│   │   └── Communication.tsx
-│   └── services/
-│       ├── databaseService.ts    # Conexión a API/GELITE
-│       └── alveoloService.ts     # Gemini + SQL Generation
+├── ai/                          # Módulos de IA
+│   ├── gemini_client.py        # Cliente Gemini 2.5 Pro
+│   ├── sql_generator.py        # Generador de SQL desde lenguaje natural
+│   └── requirements.txt
+├── scripts/phase1/              # Scripts de Fase 1
+│   ├── db_connection.py        # Conexión a SQL Server
+│   ├── db_proxy.py             # Proxy HTTP para server.js
+│   ├── schema_extractor.py     # Extractor de esquema
+│   ├── auto_discovery.py       # Auto-descubrimiento de reglas
+│   ├── populate_config.py      # Poblador de CONFIG_SISTEMA
+│   ├── generate_column_mappings.py  # Generador de mapeos
+│   └── run_phase1.py           # Script maestro
+├── database/schema/             # Esquemas y SQL
+│   └── CONFIG_SISTEMA.sql      # Tabla de auto-configuración
+└── docs/                        # Documentación
+    ├── ARQUITECTURA_SISTEMA.md
+    ├── ESTADO_PROYECTO.md
+    └── CONFIGURAR_ACCESO_REMOTO.md
 ```
 
-## 🛠️ Instalación
+## 🚀 Inicio Rápido
+
+### Prerrequisitos
+
+- Python 3.9+
+- SQL Server 2008 R2+ (GELITE)
+- Node.js 16+ (para server.js)
+- API Key de Google Gemini
+
+### Instalación
+
+1. **Clonar repositorio:**
+   ```bash
+   git clone https://github.com/Manzanedodelgado/DENTAI.git
+   cd DENTAI
+   ```
+
+2. **Configurar variables de entorno:**
+   ```bash
+   cp .env.example .env
+   # Editar .env con tus credenciales
+   ```
+
+3. **Instalar dependencias Python:**
+   ```bash
+   cd scripts/phase1
+   pip install -r requirements.txt
+   ```
+
+4. **Instalar dependencias Node.js:**
+   ```bash
+   npm install
+   ```
+
+### Ejecución
+
+#### Opción 1: Desde Windows (Recomendado)
+
+```cmd
+cd scripts\phase1
+python run_phase1.py
+```
+
+#### Opción 2: Usando Proxy HTTP
 
 ```bash
-# Instalar dependencias
-npm install
+# En Windows: Iniciar server.js
+node server.js
 
-# Crear archivo .env con tu API Key de Gemini
-cp .env.example .env
-# Editar .env y añadir tu VITE_API_KEY
-
-# Iniciar todo (Backend + Frontend)
-npm run start:all
+# En Mac/Linux: Ejecutar scripts
+cd scripts/phase1
+python3 run_phase1.py
 ```
 
-## 🔧 Configuración
+## 🤖 Características de IA
 
-### Base de Datos
-Edita `server.js` para configurar la conexión a tu SQL Server:
-```javascript
-const dbConfig = {
-  user: 'TU_USUARIO',
-  password: 'TU_PASSWORD',
-  server: 'TU_SERVIDOR',
-  database: 'GELITE',
-  options: {
-    instanceName: 'INFOMED'
-  }
-};
+### Gemini 2.5 Pro
+
+- ✅ Generación de SQL desde lenguaje natural
+- ✅ Validación de seguridad automática
+- ✅ Conversiones de fechas/horas automáticas
+- ✅ Mapeo de IDs a nombres legibles
+- ✅ Auto-configuración dinámica
+
+### Ejemplo de Uso
+
+```python
+from ai.gemini_client import GeminiAIClient
+from ai.sql_generator import SQLGenerator
+
+# Crear cliente
+gemini = GeminiAIClient()
+generator = SQLGenerator(gemini)
+
+# Generar SQL desde lenguaje natural
+result = generator.natural_language_query(
+    "Muéstrame las citas de mañana con el Dr. Mario Rubio"
+)
+
+print(result['sql'])
+# SELECT ... FROM DCitas WHERE ...
 ```
 
-### API Key Gemini
-Añade tu API Key en el archivo `.env`:
-```
-VITE_API_KEY=tu_api_key_de_gemini
-```
+## 📊 Base de Datos
 
-## 🎯 Uso
+### Tabla Principal: DCitas (Citas)
 
-1. **Login**: JMD / 190582 (Admin)
-2. **Dashboard**: Vista general con stats de GELITE
-3. **IA Dental (Sidebar)**: Chat completo con modos Admin/Paciente
-4. **Chat Flotante**: Botón "IA Dental Admin" en esquina inferior derecha
+| Columna BD | Nombre Coloquial | Tipo | Conversión |
+|------------|------------------|------|------------|
+| `Fecha` | Fecha Cita | INT | Días desde 1900-01-01 + 2 |
+| `Hora` | Hora Cita | INT | Segundos desde medianoche |
+| `Duracion` | Duración | INT | Segundos → minutos |
+| `IdSitC` | Estado | INT | 0=Planificada, 7=Confirmada, etc. |
 
-## 📡 Endpoints API
+### CONFIG_SISTEMA
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | /api/health | Estado de conexión a BD |
-| POST | /api/query | Ejecutar SQL (solo SELECT) |
-| GET | /api/appointments/:date | Citas del día |
-| GET | /api/patients | Lista de pacientes |
-| GET | /api/patients/:id | Ficha de paciente |
-| GET | /api/stats/dashboard | Estadísticas |
+Tabla de auto-configuración que almacena:
+- Prompts del sistema
+- Reglas de negocio
+- Descripciones de tablas
+- Configuraciones dinámicas
 
-## 🤖 IA Dental
+## 🔒 Seguridad
 
-### Ejemplos de consultas (Modo Admin):
-- "¿Cuántos pacientes tenemos registrados?"
-- "Muéstrame las citas de mañana"
-- "Busca pacientes con apellido García"
-- "¿Cuáles son los tratamientos más realizados?"
+- ✅ Credenciales en variables de entorno
+- ✅ Validación de SQL (previene DROP, DELETE)
+- ✅ Prepared statements
+- ✅ Datos sensibles solo en local
+- ✅ TrustServerCertificate para SQL Server
 
-### Modo Paciente:
-Simula cómo respondería IA Dental a un paciente real, sin revelar información de base de datos.
+## 📝 Documentación
+
+- [Arquitectura del Sistema](ARQUITECTURA_SISTEMA.md)
+- [Estado del Proyecto](ESTADO_PROYECTO.md)
+- [Configurar Acceso Remoto](CONFIGURAR_ACCESO_REMOTO.md)
+- [Plan de Acción](PLAN_DE_ACCION.md)
+- [Resumen Final](RESUMEN_FINAL.md)
+
+## 🛠️ Desarrollo
+
+### Estructura de Fases
+
+1. **Fase 1**: Conectividad y Auto-Descubrimiento
+2. **Fase 2**: Integración con Gemini 2.5 Pro
+3. **Fase 3**: Auto-Evaluación y Auto-Corrección
+4. **Fase 4**: WhatsApp, RRSS, Funcionalidades Avanzadas
+
+### Próximos Pasos
+
+- [ ] Ejecutar Fase 1 completa
+- [ ] Implementar auto-evaluación
+- [ ] Integrar WhatsApp Business
+- [ ] Configurar Supabase
+- [ ] Interfaz web de chat
+- [ ] Módulo de voz (STT/TTS)
+
+## 🤝 Contribuir
+
+Este es un proyecto privado para la Clínica Dental Rubio García.
+
+## 📄 Licencia
+
+Propietario: Clínica Dental Rubio García
+
+## 👥 Equipo
+
+- **Desarrollo**: Juan Antonio Manzanedo
+- **IA**: Google Gemini 2.5 Pro
+- **Cliente**: Clínica Dental Rubio García
+
+## 📞 Contacto
+
+Para más información, contactar a través del repositorio.
 
 ---
 
-© 2025 Rubio García Dental + IA Dental
+**Powered by Google Gemini 2.5 Pro** 🤖
